@@ -38,10 +38,8 @@ repositories {
 
 dependencies {
     compileOnly("org.apache.tomcat:annotations-api:6.0.53")
-    api("com.google.protobuf:protobuf-kotlin:3.21.1")
     api("com.google.protobuf:protobuf-java:3.21.1")
     runtimeOnly("io.grpc:grpc-netty-shaded:1.47.0")
-    api("io.grpc:grpc-kotlin-stub:1.3.0")
     api("io.grpc:grpc-protobuf:1.47.0")
     api("io.grpc:grpc-stub:1.47.0")
 }
@@ -55,13 +53,17 @@ sourceSets {
 
     main {
         java {
-            srcDirs("build/generated/source/proto/main/java")
+            srcDirs(
+                "build/generated/source/proto/main/java"
+            )
         }
     }
 
     test {
         java {
-            srcDirs("build/generated/source/proto/main/java")
+            srcDirs(
+                "build/generated/source/proto/main/java"
+            )
         }
     }
 }
