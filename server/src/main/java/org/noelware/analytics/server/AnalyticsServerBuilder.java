@@ -24,75 +24,78 @@
 package org.noelware.analytics.server;
 
 import io.grpc.ServerBuilder;
+import java.util.UUID;
 import org.noelware.analytics.protobufs.v1.BuildFlavour;
 import org.noelware.analytics.server.impl.AnalyticsServerImpl;
 import org.noelware.analytics.server.impl.AnalyticsService;
 
-import java.util.UUID;
-
 public class AnalyticsServerBuilder {
-    public static AnalyticsServerBuilder newBuilder() {
-        return newBuilder(55132);
-    }
+  public static AnalyticsServerBuilder newBuilder() {
+    return newBuilder(55132);
+  }
 
-    public static AnalyticsServerBuilder newBuilder(int port) {
-        return new AnalyticsServerBuilder(port);
-    }
+  public static AnalyticsServerBuilder newBuilder(int port) {
+    return new AnalyticsServerBuilder(port);
+  }
 
-    private final ServerBuilder<?> serverBuilder;
-    private BuildFlavour flavour;
-    private UUID instanceUUID;
-    private String buildDate;
-    private String commitSha;
-    private String product;
-    private String version;
+  private final ServerBuilder<?> serverBuilder;
+  private BuildFlavour flavour;
+  private UUID instanceUUID;
+  private String buildDate;
+  private String commitSha;
+  private String product;
+  private String version;
 
-    public AnalyticsServerBuilder(int port) {
-        this.serverBuilder = ServerBuilder.forPort(port);
-    }
+  public AnalyticsServerBuilder(int port) {
+    this.serverBuilder = ServerBuilder.forPort(port);
+  }
 
-    public AnalyticsServerBuilder setVersion(String version) {
-        this.version = version;
-        return this;
-    }
+  public AnalyticsServerBuilder setVersion(String version) {
+    this.version = version;
+    return this;
+  }
 
-    public AnalyticsServerBuilder setProduct(String product) {
-        this.product = product;
-        return this;
-    }
+  public AnalyticsServerBuilder setProduct(String product) {
+    this.product = product;
+    return this;
+  }
 
-    public AnalyticsServerBuilder setCommitSha(String commitSha) {
-        this.commitSha = commitSha;
-        return this;
-    }
+  public AnalyticsServerBuilder setCommitSha(String commitSha) {
+    this.commitSha = commitSha;
+    return this;
+  }
 
-    public AnalyticsServerBuilder setBuildDate(String buildDate) {
-        this.buildDate = buildDate;
-        return this;
-    }
+  public AnalyticsServerBuilder setBuildDate(String buildDate) {
+    this.buildDate = buildDate;
+    return this;
+  }
 
-    public AnalyticsServerBuilder setInstanceUUID(UUID instanceUUID) {
-        this.instanceUUID = instanceUUID;
-        return this;
-    }
+  public AnalyticsServerBuilder setInstanceUUID(UUID instanceUUID) {
+    this.instanceUUID = instanceUUID;
+    return this;
+  }
 
-    public AnalyticsServerBuilder setFlavour(BuildFlavour flavour) {
-        this.flavour = flavour;
-        return this;
-    }
+  public AnalyticsServerBuilder setFlavour(BuildFlavour flavour) {
+    this.flavour = flavour;
+    return this;
+  }
 
-    public AnalyticsServerBuilder modifyServer(GenericModifyOperation<ServerBuilder<?>> modifyOperation) {
-        modifyOperation.modify(this.serverBuilder);
-        return this;
-    }
+  public AnalyticsServerBuilder modifyServer(
+      GenericModifyOperation<ServerBuilder<?>> modifyOperation) {
+    modifyOperation.modify(this.serverBuilder);
+    return this;
+  }
 
-    public AnalyticsServer build() {
-        var server = new AnalyticsServerImpl(product, version, commitSha, buildDate, flavour, instanceUUID, null);
-        modifyServer((builder) -> {
-            builder.addService(new AnalyticsService(server));
+  public AnalyticsServer build() {
+    var server =
+        new AnalyticsServerImpl(
+            product, version, commitSha, buildDate, flavour, instanceUUID, null);
+    modifyServer(
+        (builder) -> {
+          builder.addService(new AnalyticsService(server));
         });
 
-        server.setServerImpl(serverBuilder.build());
-        return server;
-    }
+    server.setServerImpl(serverBuilder.build());
+    return server;
+  }
 }

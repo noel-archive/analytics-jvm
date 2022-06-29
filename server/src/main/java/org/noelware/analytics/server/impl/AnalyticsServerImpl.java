@@ -24,13 +24,11 @@
 package org.noelware.analytics.server.impl;
 
 import com.google.protobuf.Value;
-
+import io.grpc.Server;
 import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import io.grpc.Server;
 import org.noelware.analytics.protobufs.v1.BuildFlavour;
 import org.noelware.analytics.server.AnalyticsServer;
 import org.noelware.analytics.server.plugins.PluginRegistry;

@@ -21,9 +21,18 @@
  * SOFTWARE.
  */
 
-package org.noelware.analytics.server;
+package org.noelware.analytics.kotlin.server.extensions
 
-@FunctionalInterface
-public interface GenericModifyOperation<T> {
-  void modify(T data);
+import org.noelware.analytics.kotlin.server.KotlinStatsPlugin
+import org.noelware.analytics.server.plugins.Plugin
+import org.noelware.analytics.server.plugins.PluginRegistry
+
+@JvmName("addPluginKotlinReified")
+@Suppress("UNUSED", "UNCHECKED_CAST")
+inline fun <reified T: Plugin> PluginRegistry.addPlugin() {
+    addPlugin(T::class.java as Class<Plugin>)
+}
+
+fun PluginRegistry.addKotlinStatsPlugin() {
+    addPlugin<KotlinStatsPlugin>()
 }

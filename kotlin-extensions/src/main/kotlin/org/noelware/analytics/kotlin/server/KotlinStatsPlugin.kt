@@ -21,9 +21,23 @@
  * SOFTWARE.
  */
 
-package org.noelware.analytics.server;
+package org.noelware.analytics.kotlin.server
 
-@FunctionalInterface
-public interface GenericModifyOperation<T> {
-  void modify(T data);
+import com.google.protobuf.Value
+import org.noelware.analytics.server.Pair
+import org.noelware.analytics.server.plugins.Plugin
+
+class KotlinStatsPlugin: Plugin {
+    override fun getStatistics(): Pair<String, MutableMap<String, Value>> {
+        val kotlinVersionValue = Value.newBuilder().apply {
+            stringValue = KotlinVersion.CURRENT.toString()
+        }.build()
+
+        return Pair(
+            "kotlin",
+            mutableMapOf(
+                "version" to kotlinVersionValue
+            )
+        )
+    }
 }
