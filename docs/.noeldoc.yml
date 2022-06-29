@@ -1,0 +1,53 @@
+# 🌂 analytics-jvm: Client and server implementation of Noelware Analytics in Java, supported for both Java and Kotlin
+# Copyright (c) 2022 Noelware
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+project: Noelware Analytics for JVM
+emoji: "🌂"
+homepage: https://docs.noelware.org/analytics/jvm
+renderer: markdown
+repository: https://github.com/Noelware/analytics-jvm
+export_vite_app: ${{ env['EXPORT_AS_VITE_APP'].defined() }}
+export_data: ${{ env['EXPORT_AS_VITE_APP'].isUndefined() }}
+plugins:
+    config:
+        # NPR - Noeldoc Plugin Registry: Where all the plugins created by Noelware
+        # are registered to. You can use a simple S3 bucket to export your plugins
+        # if your organization uses Noeldoc.
+        registry: ncr.noelware.org
+
+    javadoc:
+        id: org.noelware.docs.javadoc
+        options:
+            path: /analytics/jvm/api
+            working_directory: ${{ cwd() }}
+            command:
+            - ./gradlew
+            - javadoc
+
+    dokka:
+        id: org.noelware.docs.kotlin.dokka
+        options:
+            path: /analytics/jvm/kotlin-extensions/api
+            working_directory: ${{ cwd() }}
+            collect_from: ${{ cwd() }}/build/dokka
+            command:
+            - ./gradlew
+            - :kotlin-extensions:dokkaHtml
