@@ -21,13 +21,32 @@
  * SOFTWARE.
  */
 
-rootProject.name = "protobufs-jvm"
+package org.noelware.analytics.server;
 
-include(
-    ":bom",
-    ":client",
-    ":kotlin-extensions",
-    ":kotlin-protobufs",
-    ":protobufs",
-    ":server"
-)
+import com.google.protobuf.Value;
+import java.io.Closeable;
+import java.io.IOException;
+import java.util.Map;
+import java.util.UUID;
+import org.noelware.analytics.protobufs.v1.BuildFlavour;
+import org.noelware.analytics.server.plugins.PluginRegistry;
+
+public interface AnalyticsServer extends Closeable {
+  PluginRegistry getPluginRegistry();
+
+  Map<String, Value> getStatistics();
+
+  BuildFlavour getBuildFlavour();
+
+  UUID getInstanceUUID();
+
+  String getCommitSha();
+
+  String getBuildDate();
+
+  String getProduct();
+
+  String getVersion();
+
+  void start() throws IOException, InterruptedException;
+}

@@ -21,13 +21,6 @@
  * SOFTWARE.
  */
 
-rootProject.name = "protobufs-jvm"
+package org.noelware.analytics.server;
 
-include(
-    ":bom",
-    ":client",
-    ":kotlin-extensions",
-    ":kotlin-protobufs",
-    ":protobufs",
-    ":server"
-)
+public record Pair<A, B>(A first, B second) {}

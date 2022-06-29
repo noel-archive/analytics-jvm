@@ -21,13 +21,23 @@
  * SOFTWARE.
  */
 
-rootProject.name = "protobufs-jvm"
+package org.noelware.analytics.server.plugins;
 
-include(
-    ":bom",
-    ":client",
-    ":kotlin-extensions",
-    ":kotlin-protobufs",
-    ":protobufs",
-    ":server"
-)
+import java.util.List;
+import java.util.function.Function;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+public interface PluginRegistry extends AutoCloseable {
+  @NotNull
+  List<Plugin> getPlugins();
+
+  @Nullable
+  <T extends Plugin> T getPluginByClass(Class<Plugin> cls) throws Exception;
+
+  void onEachPlugin(Function<Plugin, Void> lambda);
+
+  void addPlugin(Class<Plugin> pluginClass) throws Exception;
+
+  void addPlugin(Plugin plugin);
+}

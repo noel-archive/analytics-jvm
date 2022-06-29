@@ -55,13 +55,13 @@ sourceSets {
 
     main {
         java {
-            srcDirs("build/generated/source/proto/main/java")
+            srcDirs("build/generated/source/proto/main/kotlin")
         }
     }
 
     test {
         java {
-            srcDirs("build/generated/source/proto/main/java")
+            srcDirs("build/generated/source/proto/main/kotlin")
         }
     }
 }
@@ -72,16 +72,18 @@ protobuf {
     }
 
     plugins {
-        id("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:1.47.0"
+        id("grpc-kotlin") {
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:1.3.0:jdk8@jar"
         }
     }
 
     generateProtoTasks {
         all().forEach {
             it.plugins {
-                id("grpc")
+                id("grpc-kotlin")
             }
+
+            it.builtins { id("kotlin") }
         }
     }
 }

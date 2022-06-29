@@ -21,13 +21,29 @@
  * SOFTWARE.
  */
 
-rootProject.name = "protobufs-jvm"
+package org.noelware.analytics.server.plugins;
 
-include(
-    ":bom",
-    ":client",
-    ":kotlin-extensions",
-    ":kotlin-protobufs",
-    ":protobufs",
-    ":server"
-)
+import com.google.protobuf.Value;
+import java.util.Map;
+import org.noelware.analytics.server.Pair;
+
+/**
+ * Represents a plugin, to extend the statistics that the Analytics server can share and visualise,
+ * and optionally store (if you want to)!
+ *
+ * <p>The plugin has lifecycle hooks, {@link
+ * #onInit(org.noelware.analytics.server.plugins.PluginRegistry)} and {@link
+ * #onDestroy(org.noelware.analytics.server.plugins.PluginRegistry)}.
+ */
+public interface Plugin {
+  /** Called when the plugin is being initialized. */
+  default void onInit(PluginRegistry registry) {}
+
+  /** Called when the plugin is being destroyed. */
+  default void onDestroy(PluginRegistry registry) {}
+
+  /** Extra statistics to push to the analytics server. */
+  default Pair<String, Map<String, Value>> getStatistics() {
+    return null;
+  }
+}

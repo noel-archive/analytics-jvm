@@ -20,3 +20,16 @@
 # SOFTWARE.
 
 name: Release a new snapshot version
+on:
+  release:
+    types:
+      - prereleased
+jobs:
+  release:
+    name: Release a new Snapshot version
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
