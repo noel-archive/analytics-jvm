@@ -41,7 +41,7 @@ dependencies {
     api("com.google.protobuf:protobuf-java:3.21.5")
     runtimeOnly("io.grpc:grpc-netty-shaded:1.49.0")
     api("io.grpc:grpc-protobuf:1.49.0")
-    api("io.grpc:grpc-stub:1.47.0")
+    api("io.grpc:grpc-stub:1.49.0")
 }
 
 sourceSets {
