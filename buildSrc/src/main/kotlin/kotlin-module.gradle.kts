@@ -44,7 +44,7 @@ repositories {
 dependencies {
     testImplementation("org.slf4j:slf4j-simple:2.0.2")
     testImplementation(kotlin("test"))
-    api("org.slf4j:slf4j-api:2.0.2")
+    api("org.slf4j:slf4j-api:2.0.3")
 }
 
 spotless {
