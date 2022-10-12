@@ -40,7 +40,7 @@ dependencies {
     compileOnly("org.apache.tomcat:annotations-api:6.0.53")
     api("com.google.protobuf:protobuf-java:3.21.7")
     runtimeOnly("io.grpc:grpc-netty-shaded:1.50.0")
-    api("io.grpc:grpc-protobuf:1.49.2")
+    api("io.grpc:grpc-protobuf:1.50.0")
     api("io.grpc:grpc-stub:1.49.2")
 }
 
