@@ -38,7 +38,7 @@ repositories {
 
 dependencies {
     compileOnly("org.apache.tomcat:annotations-api:6.0.53")
-    api("com.google.protobuf:protobuf-java:3.21.8")
+    api("com.google.protobuf:protobuf-java:3.21.9")
     runtimeOnly("io.grpc:grpc-netty-shaded:1.50.2")
     api("io.grpc:grpc-protobuf:1.50.2")
     api("io.grpc:grpc-stub:1.50.2")
