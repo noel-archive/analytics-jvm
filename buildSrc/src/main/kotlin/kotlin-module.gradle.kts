@@ -42,7 +42,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation("org.slf4j:slf4j-simple:2.0.4")
+    testImplementation("org.slf4j:slf4j-simple:2.0.5")
     testImplementation(kotlin("test"))
     api("org.slf4j:slf4j-api:2.0.5")
 }
