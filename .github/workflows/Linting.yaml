@@ -70,7 +70,7 @@ jobs:
     strategy:
       matrix:
         java-version: [17, 19]
-        runner: [windows-latest, ubuntu-latest, macos-latest, self-hosted]
+        runner: [ubuntu-latest, self-hosted]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
