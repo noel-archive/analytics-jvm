@@ -24,13 +24,12 @@
 package org.noelware.analytics.jvm.client.internal.blocking;
 
 import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
-
-import io.grpc.ManagedChannelBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.noelware.analytics.jvm.client.AnalyticsClient;
 import org.noelware.analytics.jvm.client.handlers.ConnectionAckResponseHandler;
@@ -59,7 +58,8 @@ public class DefaultBlockingAnalyticsClient implements AnalyticsClient {
         this.instanceUUID = split[0];
         this.rawToken = split[1];
         this.channel = channel.build();
-        this.stub = AnalyticsGrpc.newBlockingStub(this.channel).withCallCredentials(new ClientAuthorizationCredentials(rawToken));
+        this.stub = AnalyticsGrpc.newBlockingStub(this.channel)
+                .withCallCredentials(new ClientAuthorizationCredentials(rawToken));
     }
 
     /**

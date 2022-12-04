@@ -24,15 +24,13 @@
 package org.noelware.analytics.jvm.client.internal.async;
 
 import io.grpc.ManagedChannel;
-
+import io.grpc.ManagedChannelBuilder;
 import java.util.Base64;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
-
-import io.grpc.ManagedChannelBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.noelware.analytics.jvm.client.AnalyticsClient;
 import org.noelware.analytics.jvm.client.async.AsyncAnalyticsClient;
@@ -62,7 +60,8 @@ public class DefaultAsyncAnalyticsClient implements AsyncAnalyticsClient {
         this.instanceUUID = split[0];
         this.rawToken = split[1];
         this.channel = channel.build();
-        stub = AnalyticsGrpc.newFutureStub(this.channel).withCallCredentials(new ClientAuthorizationCredentials(rawToken));
+        stub = AnalyticsGrpc.newFutureStub(this.channel)
+                .withCallCredentials(new ClientAuthorizationCredentials(rawToken));
     }
 
     /**

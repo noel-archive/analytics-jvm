@@ -24,7 +24,6 @@
 package org.noelware.analytics.jvm.client;
 
 import java.io.Closeable;
-
 import org.jetbrains.annotations.NotNull;
 import org.noelware.analytics.jvm.client.handlers.ResponseHandler;
 import org.noelware.analytics.protobufs.v1.ConnectionAckResponse;

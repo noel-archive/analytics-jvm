@@ -1,9 +1,33 @@
+/*
+ * 🐻‍❄️🌂 analytics-jvm: Client and server implementation of Noelware Analytics in Java, supported for both Java and Kotlin
+ * Copyright (c) 2022 Noelware <team@noelware.org>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package org.noelware.analytics.tests.client;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.grpc.ManagedChannelBuilder;
-import io.grpc.StatusRuntimeException;
+import java.io.IOException;
+import java.time.Instant;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -15,11 +39,8 @@ import org.noelware.analytics.jvm.server.AnalyticsServerBuilder;
 import org.noelware.analytics.protobufs.v1.BuildFlavour;
 import org.noelware.analytics.protobufs.v1.ConnectionAckResponse;
 
-import java.io.IOException;
-import java.time.Instant;
-
 public class AnalyticsClientTests {
-    private final static Instant NOW = Instant.now();
+    private static final Instant NOW = Instant.now();
     private static AnalyticsServer server;
     private static Thread serverThread;
 
@@ -56,8 +77,7 @@ public class AnalyticsClientTests {
 
     @Test
     public void test_canWeConnectOrNot() throws IOException {
-        try (final AnalyticsClient client = AnalyticsClientBuilder
-                .create("localhost", 10234)
+        try (final AnalyticsClient client = AnalyticsClientBuilder.create("localhost", 10234)
                 .withServiceToken("MGUyYTc0NTEtMmI1MC00NmMzLTg0ODEtOGM3YmQyNmRlN2NjOmJsYWhibGFoYmxhaA==")
                 .withManagedChannel(ManagedChannelBuilder::usePlaintext)
                 .build()) {

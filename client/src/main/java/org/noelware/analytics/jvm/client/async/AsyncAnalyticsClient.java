@@ -23,15 +23,11 @@
 
 package org.noelware.analytics.jvm.client.async;
 
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
 import java.io.Closeable;
 import java.util.concurrent.CompletableFuture;
-
 import org.jetbrains.annotations.NotNull;
 import org.noelware.analytics.jvm.client.AnalyticsClient;
 import org.noelware.analytics.jvm.client.handlers.ResponseHandler;
-import org.noelware.analytics.jvm.client.internal.async.DefaultAsyncAnalyticsClient;
 import org.noelware.analytics.protobufs.v1.ConnectionAckResponse;
 import org.noelware.analytics.protobufs.v1.ReceiveStatsResponse;
 
