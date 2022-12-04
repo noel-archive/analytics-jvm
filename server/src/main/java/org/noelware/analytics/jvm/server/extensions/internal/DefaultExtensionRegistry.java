@@ -38,7 +38,7 @@ public class DefaultExtensionRegistry implements ExtensionRegistry {
      * Returns all the extensions that were register as an immutable list.
      */
     @Override
-    public List<? extends Extension<?>> extensions() {
+    public List<Extension<?>> extensions() {
         return Collections.unmodifiableList(extensions);
     }
 
@@ -64,7 +64,10 @@ public class DefaultExtensionRegistry implements ExtensionRegistry {
                 })
                 .findAny();
 
-        return (Extension<T>) extension.orElse(null);
+        final Extension<?> result = extension.orElse(null);
+        if (result == null) return null;
+
+        return (Extension<T>) result;
     }
 
     /**
@@ -75,5 +78,17 @@ public class DefaultExtensionRegistry implements ExtensionRegistry {
     @Override
     public <T> void register(Extension<T> extension) {
         extensions.add(extension);
+    }
+
+    /**
+     * Registers a list of extensions to this {@link ExtensionRegistry registry}.
+     *
+     * @param extensions List of extensions to register
+     */
+    @Override
+    public void registerAll(Extension<?>... extensions) {
+        for (Extension<?> extension : extensions) {
+            register(extension);
+        }
     }
 }

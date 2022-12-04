@@ -37,9 +37,9 @@ repositories {
 dependencies {
     implementation("com.google.protobuf:protobuf-java:3.21.9")
     compileOnly("org.apache.tomcat:annotations-api:6.0.53")
-    runtimeOnly("io.grpc:grpc-netty-shaded:1.50.2")
-    api("io.grpc:grpc-protobuf:1.50.2")
-    api("io.grpc:grpc-stub:1.50.2")
+    runtimeOnly("io.grpc:grpc-netty-shaded:1.51.0")
+    api("io.grpc:grpc-protobuf:1.51.0")
+    api("io.grpc:grpc-stub:1.51.0")
 }
 
 sourceSets {
@@ -82,6 +82,21 @@ protobuf {
             it.plugins {
                 id("grpc")
             }
+        }
+    }
+}
+
+tasks {
+    withType<Copy> {
+        // TODO: fix this and not have this messy hack here
+        //
+//        FAILURE: Build failed with an exception.
+//
+//        * What went wrong:
+//        Execution failed for task ':protobufs:sourcesJar'.
+//        > Entry com/google/protobuf/ListValue.java is a duplicate but no duplicate handling strategy has been set. Please refer to https://docs.gradle.org/7.5.1/dsl/org.gradle.api.tasks.Copy.html#org.gradle.api.tasks.Copy:duplicatesStrategy for details.
+        filesMatching("**/ListValue.java") {
+            duplicatesStrategy = DuplicatesStrategy.WARN
         }
     }
 }

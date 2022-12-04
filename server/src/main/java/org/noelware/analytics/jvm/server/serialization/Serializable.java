@@ -21,38 +21,15 @@
  * SOFTWARE.
  */
 
-package org.noelware.analytics.jvm.server.extensions;
+package org.noelware.analytics.jvm.server.serialization;
 
-import java.util.List;
-import org.jetbrains.annotations.Nullable;
+import com.google.protobuf.Value;
 
 /**
- * Represents the registry for all available extensions the server manages
+ * Represents an interface that helps create {@link com.google.protobuf.Value values} with Java POJOs. This
+ * is automatically generated when the RetrieveStats method descriptor is called, and the stats are usually not
+ * cached, so it can take a while when all the extensions are retrieving their data.
  */
-public interface ExtensionRegistry {
-    /**
-     * Returns all the extensions that were register as an immutable list.
-     */
-    List<Extension<?>> extensions();
-
-    /**
-     * Finds an extension by the given {@link Class<T> class}.
-     *
-     * @param tClass The extension class
-     * @return the extension or <code>null</code> if not found.
-     */
-    @Nullable
-    <T> Extension<T> findByClass(Class<T> tClass);
-
-    /**
-     * Registers an extension to this registry
-     * @param extension extension to register
-     */
-    <T> void register(Extension<T> extension);
-
-    /**
-     * Registers a list of extensions to this {@link ExtensionRegistry registry}.
-     * @param extensions List of extensions to register
-     */
-    void registerAll(Extension<?>... extensions);
+public interface Serializable {
+    Value toGrpcValue();
 }

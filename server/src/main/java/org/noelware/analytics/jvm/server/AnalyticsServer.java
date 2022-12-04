@@ -59,6 +59,18 @@ public interface AnalyticsServer extends Closeable {
     Server server();
 
     /**
+     * Returns the instance UUID that this server is using
+     */
+    @NotNull
+    String instanceUUID();
+
+    /**
+     * Returns the {@link ServerMetadata} collection.
+     */
+    @NotNull
+    ServerMetadata metadata();
+
+    /**
      * Starts the server.
      */
     void start() throws IOException;

@@ -23,4 +23,71 @@
 
 package org.noelware.analytics.jvm.server.extensions.jvm;
 
-public class JvmMemoryPoolsExtension {}
+import com.google.protobuf.Struct;
+import com.google.protobuf.Value;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryUsage;
+import org.noelware.analytics.jvm.server.extensions.Extension;
+import org.noelware.analytics.jvm.server.serialization.Serializable;
+import org.noelware.analytics.jvm.server.util.GrpcValueUtil;
+
+public class JvmMemoryPoolsExtension implements Extension<JvmMemoryPoolsExtension.MemoryPools> {
+    private final MemoryMXBean memoryMXBean;
+
+    public JvmMemoryPoolsExtension() {
+        this(ManagementFactory.getMemoryMXBean());
+    }
+
+    public JvmMemoryPoolsExtension(MemoryMXBean bean) {
+        memoryMXBean = bean;
+    }
+
+    /**
+     * Returns the name of this {@link Extension} to be used in the final result when
+     * sending out this extension's data.
+     */
+    @Override
+    public String name() {
+        return "memory_pool";
+    }
+
+    /**
+     * This method is called to supply the data that is available to be ingested to the Analytics Server
+     * or any other third-party you allow.
+     */
+    @Override
+    public MemoryPools supply() {
+        return new MemoryPools(
+                new JvmMemoryUsage(memoryMXBean.getNonHeapMemoryUsage()),
+                new JvmMemoryUsage(memoryMXBean.getHeapMemoryUsage()));
+    }
+
+    public record MemoryPools(JvmMemoryUsage nonHeap, JvmMemoryUsage heap) implements Serializable {
+        @Override
+        public Value toGrpcValue() {
+            final Struct.Builder struct = Struct.newBuilder();
+            struct.putFields("heap", GrpcValueUtil.toValue(heap));
+            struct.putFields("non_heap", GrpcValueUtil.toValue(nonHeap));
+
+            return GrpcValueUtil.toValue(struct.build());
+        }
+    }
+
+    public record JvmMemoryUsage(long init, long used, long committed, long max) implements Serializable {
+        public JvmMemoryUsage(MemoryUsage usage) {
+            this(usage.getInit(), usage.getUsed(), usage.getCommitted(), usage.getMax());
+        }
+
+        @Override
+        public Value toGrpcValue() {
+            final Struct.Builder struct = Struct.newBuilder();
+            struct.putFields("init", GrpcValueUtil.toValue(init));
+            struct.putFields("used", GrpcValueUtil.toValue(used));
+            struct.putFields("committed", GrpcValueUtil.toValue(committed));
+            struct.putFields("max", GrpcValueUtil.toValue(max));
+
+            return GrpcValueUtil.toValue(struct.build());
+        }
+    }
+}

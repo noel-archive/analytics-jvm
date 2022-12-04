@@ -23,13 +23,15 @@
 
 package org.noelware.analytics.jvm.server.extensions.jvm;
 
+import com.google.protobuf.ListValue;
+import com.google.protobuf.Struct;
+import com.google.protobuf.Value;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import org.noelware.analytics.jvm.server.extensions.Extension;
+import org.noelware.analytics.jvm.server.serialization.Serializable;
+import org.noelware.analytics.jvm.server.util.GrpcValueUtil;
 
 public class JvmThreadsExtension implements Extension<JvmThreadsExtension.JvmThreadsData> {
     private final ThreadMXBean threadMXBean;
@@ -92,7 +94,25 @@ public class JvmThreadsExtension implements Extension<JvmThreadsExtension.JvmThr
      * @param deadlocked how many deadlocked threads are there in this JVM
      * @param info       specific thread information
      */
-    public record JvmThreadsData(int current, int background, int peak, int deadlocked, List<ThreadInfo> info) {}
+    public record JvmThreadsData(int current, int background, int peak, int deadlocked, List<ThreadInfo> info)
+            implements Serializable {
+        @Override
+        public Value toGrpcValue() {
+            final Struct.Builder struct = Struct.newBuilder();
+            struct.putFields("current", GrpcValueUtil.toValue(current));
+            struct.putFields("background", GrpcValueUtil.toValue(background));
+            struct.putFields("peak", GrpcValueUtil.toValue(peak));
+            struct.putFields("deadlocked", GrpcValueUtil.toValue(deadlocked));
+            struct.putFields(
+                    "threads",
+                    GrpcValueUtil.toValue(ListValue.newBuilder()
+                            .addAllValues(
+                                    info.stream().map(ThreadInfo::toGrpcValue).toList())
+                            .build()));
+
+            return Value.newBuilder().setStructValue(struct).build();
+        }
+    }
 
     /**
      * Represents a single thread's information.
@@ -114,5 +134,36 @@ public class JvmThreadsExtension implements Extension<JvmThreadsExtension.JvmThr
             boolean inNative,
             boolean isDaemonThread,
             int priority,
-            List<StackTraceElement> stacktrace) {}
+            List<StackTraceElement> stacktrace)
+            implements Serializable {
+        @Override
+        public Value toGrpcValue() {
+            final Struct.Builder struct = Struct.newBuilder();
+            struct.putFields("id", GrpcValueUtil.toValue(id));
+            struct.putFields("name", GrpcValueUtil.toValue(name));
+            struct.putFields("suspended", GrpcValueUtil.toValue(suspended));
+            struct.putFields("native_thread", GrpcValueUtil.toValue(inNative));
+            struct.putFields("daemon_thread", GrpcValueUtil.toValue(isDaemonThread));
+            struct.putFields(
+                    "stacktrace",
+                    GrpcValueUtil.toValue(
+                            stacktrace.stream().map(this::toGrpcValue).toList()));
+
+            return GrpcValueUtil.toValue(struct);
+        }
+
+        private Value toGrpcValue(StackTraceElement element) {
+            final Struct.Builder struct = Struct.newBuilder();
+            struct.putFields("class_loader_name", GrpcValueUtil.toValue(element.getClassLoaderName()));
+            struct.putFields("class_name", GrpcValueUtil.toValue(element.getClassName()));
+            struct.putFields("file_name", GrpcValueUtil.toValue(element.getFileName()));
+            struct.putFields("method", GrpcValueUtil.toValue(element.getMethodName()));
+            struct.putFields("module_name", GrpcValueUtil.toValue(element.getModuleName()));
+            struct.putFields("module_version", GrpcValueUtil.toValue(element.getModuleVersion()));
+            struct.putFields("native_method", GrpcValueUtil.toValue(element.isNativeMethod()));
+            struct.putFields("line", GrpcValueUtil.toValue(element.getLineNumber()));
+
+            return GrpcValueUtil.toValue(struct.build());
+        }
+    }
 }

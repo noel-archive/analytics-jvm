@@ -20,3 +20,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+import org.noelware.analytics.gradle.*
+
+plugins {
+    application
+}
+
+group = "org.noelware.analytics"
+version = "$VERSION"
+description = "\uD83D\uDCE6 \uD83D\uDC3B\u200D❄️\uD83C\uDF02 Client and server implementation of Noelware Analytics in Java, supported for both Java and Kotlin"
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}

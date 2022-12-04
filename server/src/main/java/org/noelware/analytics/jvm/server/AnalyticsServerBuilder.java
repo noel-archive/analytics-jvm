@@ -28,13 +28,16 @@ import java.util.function.Consumer;
 import org.noelware.analytics.jvm.server.extensions.Extension;
 import org.noelware.analytics.jvm.server.extensions.internal.DefaultExtensionRegistry;
 import org.noelware.analytics.jvm.server.internal.DefaultAnalyticsServer;
+import org.noelware.analytics.jvm.server.internal.metadata.DefaultServerMetadata;
 
 /**
  * Represents the builder class for creating the {@link AnalyticsServer}.
  */
 public class AnalyticsServerBuilder {
     private final DefaultExtensionRegistry extensionRegistry = new DefaultExtensionRegistry();
+    private final ServerMetadata serverMetadata = new DefaultServerMetadata();
     private final ServerBuilder<?> serverBuilder;
+    private String serviceToken;
 
     /**
      * Creates a new instance of {@link AnalyticsServerBuilder} with the default port
@@ -50,6 +53,26 @@ public class AnalyticsServerBuilder {
      */
     public AnalyticsServerBuilder(int port) {
         this.serverBuilder = ServerBuilder.forPort(port);
+    }
+
+    public AnalyticsServerBuilder withServerMetadata(Consumer<ServerMetadata> metadata) {
+        metadata.accept(serverMetadata);
+        return this;
+    }
+
+    public AnalyticsServerBuilder withServiceToken(String token) {
+        this.serviceToken = token;
+        return this;
+    }
+
+    /**
+     * Sets the service token that the server gives out when you
+     * create your instance.
+     *
+     * @param serviceToken The service token that is encoded in Base64
+     */
+    public void setServiceToken(String serviceToken) {
+        this.serviceToken = serviceToken;
     }
 
     /**
@@ -76,6 +99,7 @@ public class AnalyticsServerBuilder {
      * Builds a new {@link AnalyticsServer}.
      */
     public AnalyticsServer build() {
-        return new DefaultAnalyticsServer(extensionRegistry, serverBuilder.build());
+        if (serviceToken == null) throw new IllegalStateException("Missing service token to use when connecting!");
+        return new DefaultAnalyticsServer(extensionRegistry, serviceToken, serverMetadata, serverBuilder);
     }
 }
