@@ -107,7 +107,7 @@ jobs:
           fetch-depth: 0
 
       - name: Qodana Scan
-        uses: JetBrains/qodana-action@v2022.2.2
+        uses: JetBrains/qodana-action@v2022.2.4
         with:
           args: --baseline,qodana.sarif.json,--property,org.noelware.charted.ignoreJavaCheck=true,--save-report
 
