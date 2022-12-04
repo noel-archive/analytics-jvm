@@ -26,7 +26,7 @@ on:
       - released
 jobs:
   snapshot-release:
-    name: Release a Snapshot version
+    name: Release a stable version
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
