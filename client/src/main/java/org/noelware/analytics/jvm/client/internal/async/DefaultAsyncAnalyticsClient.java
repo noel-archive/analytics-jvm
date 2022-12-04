@@ -24,7 +24,6 @@
 package org.noelware.analytics.jvm.client.internal.async;
 
 import io.grpc.ManagedChannel;
-import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;

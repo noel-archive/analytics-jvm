@@ -23,7 +23,6 @@
 
 package org.noelware.analytics.jvm.server.internal;
 
-import com.google.protobuf.ListValue;
 import com.google.protobuf.NullValue;
 import com.google.protobuf.Struct;
 import com.google.protobuf.Value;
@@ -31,7 +30,6 @@ import io.grpc.stub.StreamObserver;
 import java.util.List;
 import org.noelware.analytics.jvm.server.AnalyticsServer;
 import org.noelware.analytics.jvm.server.extensions.Extension;
-import org.noelware.analytics.jvm.server.serialization.Serializable;
 import org.noelware.analytics.jvm.server.util.GrpcValueUtil;
 import org.noelware.analytics.protobufs.v1.*;
 import org.slf4j.Logger;
