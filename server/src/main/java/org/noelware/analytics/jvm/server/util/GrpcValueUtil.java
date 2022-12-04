@@ -49,7 +49,7 @@ public class GrpcValueUtil {
         else if (payload instanceof String)
             return valueBuilder.setStringValue((String) payload).build();
         else if (payload instanceof Number)
-            return valueBuilder.setNumberValue((Double) payload).build();
+            return valueBuilder.setNumberValue(((Number) payload).doubleValue()).build();
         else if (payload instanceof Boolean)
             return valueBuilder.setBoolValue((Boolean) payload).build();
         else if (payload instanceof Serializable) return ((Serializable) payload).toGrpcValue();
