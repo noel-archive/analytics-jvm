@@ -80,6 +80,7 @@ public class ServerRequestHandler extends AnalyticsGrpc.AnalyticsImplBase {
             data.putFields(extension.name(), GrpcValueUtil.toValue(payload));
         }
 
+        resp.setData(data.build());
         observer.onNext(resp.build());
         observer.onCompleted();
     }
