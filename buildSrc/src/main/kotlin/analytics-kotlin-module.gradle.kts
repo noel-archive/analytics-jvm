@@ -24,7 +24,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.noelware.analytics.gradle.*
 import dev.floofy.utils.gradle.*
-import gradle.kotlin.dsl.accessors._9aab0383dfc03b3173a99d0f5dd3559b.publishing
 import java.io.StringReader
 import java.util.*
 
