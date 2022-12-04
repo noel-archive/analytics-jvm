@@ -25,8 +25,8 @@ package org.noelware.analytics.tests.server;
 
 public class AnalyticsServerTest {
     // This is stub testing instance UUID for all Noelware Analytics libraries.
-    private static final String INSTANCE_UUID = "0e2a7451-2b50-46c3-8481-8c7bd26de7cc";
+    public static final String INSTANCE_UUID = "0e2a7451-2b50-46c3-8481-8c7bd26de7cc";
 
     // base64 encoded: 0e2a7451-2b50-46c3-8481-8c7bd26de7cc:blahblahblah
-    private static final String SERVICE_TOKEN = "MGUyYTc0NTEtMmI1MC00NmMzLTg0ODEtOGM3YmQyNmRlN2NjOmJsYWhibGFoYmxhaA==";
+    public static final String SERVICE_TOKEN = "MGUyYTc0NTEtMmI1MC00NmMzLTg0ODEtOGM3YmQyNmRlN2NjOmJsYWhibGFoYmxhaA==";
 }

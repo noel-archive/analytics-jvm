@@ -25,13 +25,18 @@ package org.noelware.analytics.jvm.client.internal.blocking;
 
 import io.grpc.ManagedChannel;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
+
+import io.grpc.ManagedChannelBuilder;
+import org.jetbrains.annotations.NotNull;
 import org.noelware.analytics.jvm.client.AnalyticsClient;
 import org.noelware.analytics.jvm.client.handlers.ConnectionAckResponseHandler;
 import org.noelware.analytics.jvm.client.handlers.ResponseHandler;
 import org.noelware.analytics.jvm.client.handlers.RetrieveStatsResponseHandler;
+import org.noelware.analytics.jvm.client.internal.ClientAuthorizationCredentials;
 import org.noelware.analytics.protobufs.v1.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,14 +44,22 @@ import org.slf4j.LoggerFactory;
 public class DefaultBlockingAnalyticsClient implements AnalyticsClient {
     private final AnalyticsGrpc.AnalyticsBlockingStub stub;
     private final ManagedChannel channel;
+    private final String instanceUUID;
+    private final String rawToken;
 
     private final AtomicBoolean closed = new AtomicBoolean(false);
     private final AtomicLong calls = new AtomicLong(0L);
     private final Logger LOG = LoggerFactory.getLogger(DefaultBlockingAnalyticsClient.class);
 
-    public DefaultBlockingAnalyticsClient(ManagedChannel channel) {
-        this.channel = channel;
-        this.stub = AnalyticsGrpc.newBlockingStub(channel);
+    public DefaultBlockingAnalyticsClient(String serviceToken, ManagedChannelBuilder<?> channel) {
+        final String finalResult = new String(Base64.getDecoder().decode(serviceToken));
+        final String[] split = finalResult.split(":", 2);
+        if (split.length != 2) throw new IllegalStateException("Service token was not split as 'instanceUUID:token'");
+
+        this.instanceUUID = split[0];
+        this.rawToken = split[1];
+        this.channel = channel.build();
+        this.stub = AnalyticsGrpc.newBlockingStub(this.channel).withCallCredentials(new ClientAuthorizationCredentials(rawToken));
     }
 
     /**
@@ -63,6 +76,14 @@ public class DefaultBlockingAnalyticsClient implements AnalyticsClient {
     @Override
     public long calls() {
         return calls.get();
+    }
+
+    /**
+     * Returns the instance UUID that the analytics client is connecting to.
+     */
+    @Override
+    public @NotNull String instanceUUID() {
+        return instanceUUID;
     }
 
     /**

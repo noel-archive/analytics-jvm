@@ -27,6 +27,8 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import java.io.Closeable;
 import java.util.concurrent.CompletableFuture;
+
+import org.jetbrains.annotations.NotNull;
 import org.noelware.analytics.jvm.client.AnalyticsClient;
 import org.noelware.analytics.jvm.client.handlers.ResponseHandler;
 import org.noelware.analytics.jvm.client.internal.async.DefaultAsyncAnalyticsClient;
@@ -38,22 +40,6 @@ import org.noelware.analytics.protobufs.v1.ReceiveStatsResponse;
  */
 public interface AsyncAnalyticsClient extends Closeable {
     /**
-     * Creates a new {@link AsyncAnalyticsClient analytics client} with the given target string.
-     * @param target The target string to connect to the Analytics server.
-     */
-    static AsyncAnalyticsClient create(String target) {
-        return create(ManagedChannelBuilder.forTarget(target).build());
-    }
-
-    static AsyncAnalyticsClient create(String host, int port) {
-        return create(ManagedChannelBuilder.forAddress(host, port).build());
-    }
-
-    static AsyncAnalyticsClient create(ManagedChannel channel) {
-        return new DefaultAsyncAnalyticsClient(channel);
-    }
-
-    /**
      * Determines whether this {@link AsyncAnalyticsClient client} is closed or not.
      */
     boolean isClosed();
@@ -62,6 +48,12 @@ public interface AsyncAnalyticsClient extends Closeable {
      * Returns how many gRPC calls that this {@link AsyncAnalyticsClient client} has executed.
      */
     long calls();
+
+    /**
+     * Returns the instance UUID that the analytics client is connecting to.
+     */
+    @NotNull
+    String instanceUUID();
 
     /**
      * Refer to {@link AnalyticsClient#connectAck()} for the full documentation. This just returns a

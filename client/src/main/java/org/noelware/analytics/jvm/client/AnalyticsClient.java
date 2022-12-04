@@ -23,11 +23,10 @@
 
 package org.noelware.analytics.jvm.client;
 
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
 import java.io.Closeable;
+
+import org.jetbrains.annotations.NotNull;
 import org.noelware.analytics.jvm.client.handlers.ResponseHandler;
-import org.noelware.analytics.jvm.client.internal.blocking.DefaultBlockingAnalyticsClient;
 import org.noelware.analytics.protobufs.v1.ConnectionAckResponse;
 import org.noelware.analytics.protobufs.v1.ReceiveStatsResponse;
 
@@ -38,22 +37,6 @@ import org.noelware.analytics.protobufs.v1.ReceiveStatsResponse;
  */
 public interface AnalyticsClient extends Closeable {
     /**
-     * Creates a new {@link AnalyticsClient analytics client} with the given target string.
-     * @param target The target string to connect to the Analytics server.
-     */
-    static AnalyticsClient create(String target) {
-        return create(ManagedChannelBuilder.forTarget(target).build());
-    }
-
-    static AnalyticsClient create(String host, int port) {
-        return create(ManagedChannelBuilder.forAddress(host, port).build());
-    }
-
-    static AnalyticsClient create(ManagedChannel channel) {
-        return new DefaultBlockingAnalyticsClient(channel);
-    }
-
-    /**
      * Determines whether this {@link AnalyticsClient client} is closed or not.
      */
     boolean isClosed();
@@ -62,6 +45,12 @@ public interface AnalyticsClient extends Closeable {
      * Returns how many gRPC calls that this {@link AnalyticsClient client} has executed.
      */
     long calls();
+
+    /**
+     * Returns the instance UUID that the analytics client is connecting to.
+     */
+    @NotNull
+    String instanceUUID();
 
     /**
      * Sends the {@link org.noelware.analytics.protobufs.v1.ConnectionAckRequest connection ack request} to the gRPC server to see

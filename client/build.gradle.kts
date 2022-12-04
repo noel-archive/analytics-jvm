@@ -27,4 +27,7 @@ plugins {
 
 dependencies {
     api(project(":protobufs"))
+
+    // Needed to spin up a test protocol server
+    testImplementation(project(":server"))
 }
