@@ -17,18 +17,18 @@ You will need the instance service token to use the client for yourself.
 // Add the "org.noelware.analytics:client:<VERSION>" to the project before
 // copying.
 
-import org.noelware.analytics.client.blocking.BlockingAnalyticsClient;
-import org.noelware.analytics.client.responses.ConnectionAckResponse;
-import org.noelware.analytics.client.responses.InstanceStatsResponse;
-import org.noelware.analytics.client.query.QueryBuilder;
+import org.noelware.analytics.jvm.client.blocking.BlockingAnalyticsClient;
+import org.noelware.analytics.jvm.client.responses.ConnectionAckResponse;
+import org.noelware.analytics.jvm.client.responses.InstanceStatsResponse;
+import org.noelware.analytics.jvm.client.query.QueryBuilder;
 
 // The client also supports asynchronous clients that use the CompletableFuture
 // API. This will only demonstrate the blocking APIs.
 public class Program {
     public static void main(String[] args) {
         final BlockingAnalyticsClient client = new BlockingAnalyticsClient.Builder()
-                .setServiceToken("<token from dashboard>")
-                .editChannelBuilder(builder -> {
+                .withServiceToken("<token from dashboard>")
+                .withChannelBuilder(builder -> {
                     // builder => the gRPC channel builder
                     builder.usePlaintext();
                 })
@@ -48,20 +48,19 @@ You will still need your instance service token to validate requests from incomi
 block traffic that isn't from any client that doesn't have the service token available.
 
 ```java
-import org.noelware.analytics.server.plugins.jvm.JvmMemoryPoolPlugin;
-import org.noelware.analytics.server.plugins.jvm.JvmThreadsPlugin;
-import org.noelware.analytics.server.AnalyticsServerBuilder;
-import org.noelware.analytics.server.AnalyticsServer;
+import org.noelware.analytics.jvm.server.extensions.jvm.JvmMemoryPoolExtension;
+import org.noelware.analytics.jvm.server.extensions.jvm.JvmThreadsPluginExtension;
+import org.noelware.analytics.jvm.server.AnalyticsServerBuilder;
+import org.noelware.analytics.jvm.server.AnalyticsServer;
 
 public class Program {
     public static void main(String[] args) {
-        final AnalyticsServer server = new AnalyticsServerBuilder()
-                .withPort(55123)
-                .withPlugins(new JvmMemoryPoolPlugin(), new JvmThreadsPlugin())
+        final AnalyticsServer server = new AnalyticsServerBuilder(55123)
+                .withExtensions(new JvmMemoryPoolPlugin(), new JvmThreadsPlugin())
                 .withServiceToken("<service token from dashboard>")
                 .build();
         
-        server.runBlocking();
+        server.start();
     }
 }
 ```
@@ -89,7 +88,8 @@ repositories {
 }
 
 dependencies {
-    implementation("org.noelware.analytics:bom:<VERSION>")
+    implementation("org.noelware.analytics:analytics-bom:<VERSION>")
+    implementation("org.noelware.analytics:client")
 }
 ```
 
@@ -100,11 +100,10 @@ dependencies {
         <url>https://maven.noelware.org</url>
     </repository>
 </repositories>
-
 <dependencies>
     <dependency>
         <group>org.noelware.analytics</group>
-        <artifactId>bom</artifactId>
+        <artifactId>analytics-bom</artifactId>
         <version>{VERSION}</version>
         <type>pom</type>
     </dependency>
