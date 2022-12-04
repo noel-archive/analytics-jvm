@@ -23,10 +23,7 @@
 
 package org.noelware.analytics.jvm.server.util;
 
-import com.google.protobuf.ListValue;
-import com.google.protobuf.NullValue;
-import com.google.protobuf.Struct;
-import com.google.protobuf.Value;
+import com.google.protobuf.*;
 import java.util.List;
 import org.noelware.analytics.jvm.server.serialization.Serializable;
 

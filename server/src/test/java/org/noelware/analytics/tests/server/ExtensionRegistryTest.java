@@ -21,10 +21,29 @@
  * SOFTWARE.
  */
 
-package org.noelware.analytics.gradle
+package org.noelware.analytics.tests.server;
 
-import dev.floofy.utils.gradle.*
-import org.gradle.api.JavaVersion
+import static org.junit.jupiter.api.Assertions.*;
 
-val VERSION = Version(0, 1, 2, 0, ReleaseType.Beta)
-val JAVA_VERSION = JavaVersion.VERSION_17
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.noelware.analytics.jvm.server.extensions.ExtensionRegistry;
+import org.noelware.analytics.jvm.server.extensions.internal.DefaultExtensionRegistry;
+import org.noelware.analytics.jvm.server.extensions.jvm.JvmMemoryPoolsExtension;
+import org.noelware.analytics.jvm.server.extensions.jvm.JvmThreadsExtension;
+import org.noelware.analytics.jvm.server.extensions.jvm.JvmVersionInfoExtension;
+
+public class ExtensionRegistryTest {
+    private static final ExtensionRegistry registry = new DefaultExtensionRegistry();
+
+    @BeforeAll
+    public static void beforeRun() {
+        registry.registerAll(new JvmThreadsExtension(), new JvmMemoryPoolsExtension(), new JvmVersionInfoExtension());
+    }
+
+    @Test
+    public void test_findByClass() {
+        assertNull(registry.findByClass(JvmThreadsExtension.JvmThreadsData.class));
+        assertNotNull(registry.findByClass(JvmThreadsExtension.class));
+    }
+}

@@ -110,7 +110,7 @@ public class JvmThreadsExtension implements Extension<JvmThreadsExtension.JvmThr
                                     info.stream().map(ThreadInfo::toGrpcValue).toList())
                             .build()));
 
-            return Value.newBuilder().setStructValue(struct).build();
+            return GrpcValueUtil.toValue(struct.build());
         }
     }
 
@@ -149,7 +149,7 @@ public class JvmThreadsExtension implements Extension<JvmThreadsExtension.JvmThr
                     GrpcValueUtil.toValue(
                             stacktrace.stream().map(this::toGrpcValue).toList()));
 
-            return GrpcValueUtil.toValue(struct);
+            return GrpcValueUtil.toValue(struct.build());
         }
 
         private Value toGrpcValue(StackTraceElement element) {
