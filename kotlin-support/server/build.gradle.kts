@@ -24,3 +24,7 @@
 plugins {
     `analytics-kotlin-module`
 }
+
+dependencies {
+    implementation(project(":server"))
+}

@@ -126,10 +126,9 @@ public class DefaultAsyncAnalyticsClient implements AsyncAnalyticsClient {
      * <em>mark</em> the {@code Closeable} as closed, prior to throwing
      * the {@code IOException}.
      *
-     * @throws IOException if an I/O error occurs
      */
     @Override
-    public void close() throws IOException {
+    public void close() {
         if (closed.compareAndSet(false, true)) {
             LOG.warn("Shutting down analytics client connection!");
 

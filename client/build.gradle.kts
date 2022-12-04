@@ -26,5 +26,5 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":protobufs"))
+    api(project(":protobufs"))
 }
