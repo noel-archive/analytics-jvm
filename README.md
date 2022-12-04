@@ -1,7 +1,7 @@
 # 🐻‍❄️🌂 Noelware Analytics for JVM
 > *JVM support for using [Noelware Analytics](https://analytics.noelware.org) for your applications.*
 >
-> <kbd>v0.1-alpha</kbd> | [:scroll: **Documentation**](https://analytics.noelware.org/docs/support/jvm)
+> <kbd><a href="https://github.com/Noelware/analytics-jvm/releases/v0.1-beta">v0.1-beta</a></kbd> | [:scroll: **Documentation**](https://analytics.noelware.org/docs/support/jvm)
 
 **Noelware Analytics for JVM** (`analytics-jvm`) is a library to support client and server support of the Noelware Analytics
 [protocol](https://analytics.noelware.org/docs/protocol) for the JVM with Kotlin support.
@@ -111,7 +111,20 @@ dependencies {
 ```
 
 ## Contributing
-;-; coming soon! ;-;
+Thanks for considering contributing to **analytics-jvm**! Before you boop your heart out on your keyboard ✧ ─=≡Σ((( つ•̀ω•́)つ, we recommend you to do the following:
+
+- Read the [Code of Conduct](./.github/CODE_OF_CONDUCT.md)
+- Read the [Contributing Guide](./.github/CONTRIBUTING.md)
+
+If you read both if you're a new time contributor, now you can do the following:
+
+- [Fork me! ＊*♡( ⁎ᵕᴗᵕ⁎ ）](https://github.com/Noelware/analytics-jvm/fork)
+- Clone your fork on your machine: `git clone https://github.com/your-username/analytics-jvm`
+- Create a new branch: `git checkout -b some-branch-name`
+- BOOP THAT KEYBOARD!!!! ♡┉ˏ͛ (❛ 〰 ❛)ˊˎ┉♡
+- Commit your changes onto your branch: `git commit -am "add features （｡>‿‿<｡ ）"`
+- Push it to the fork you created: `git push -u origin some-branch-name`
+- Submit a Pull Request and then cry! ｡･ﾟﾟ･(థ Д థ。)･ﾟﾟ･｡
 
 ## License
 **Noelware Analytics for JVM** (`analytics-jvm`) is released under the **MIT License** by Noelware, with love. :3
