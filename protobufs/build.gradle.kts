@@ -85,18 +85,3 @@ protobuf {
         }
     }
 }
-
-tasks {
-    withType<Copy> {
-        // TODO: fix this and not have this messy hack here
-        //
-//        FAILURE: Build failed with an exception.
-//
-//        * What went wrong:
-//        Execution failed for task ':protobufs:sourcesJar'.
-//        > Entry com/google/protobuf/ListValue.java is a duplicate but no duplicate handling strategy has been set. Please refer to https://docs.gradle.org/7.5.1/dsl/org.gradle.api.tasks.Copy.html#org.gradle.api.tasks.Copy:duplicatesStrategy for details.
-        filesMatching("**/ListValue.java") {
-            duplicatesStrategy = DuplicatesStrategy.WARN
-        }
-    }
-}
