@@ -48,7 +48,7 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.1")
     implementation("org.jetbrains:annotations:23.1.0")
     testImplementation("org.slf4j:slf4j-simple:2.0.3")
-    api("org.slf4j:slf4j-api:2.0.5")
+    api("org.slf4j:slf4j-api:2.0.6")
 }
 
 spotless {
