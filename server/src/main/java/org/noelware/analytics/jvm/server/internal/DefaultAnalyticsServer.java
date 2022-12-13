@@ -29,6 +29,8 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import io.grpc.netty.shaded.io.grpc.netty.NettyServerBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.noelware.analytics.jvm.server.AnalyticsServer;
 import org.noelware.analytics.jvm.server.ServerMetadata;
@@ -44,16 +46,16 @@ public class DefaultAnalyticsServer implements AnalyticsServer {
     private final Server server;
 
     public DefaultAnalyticsServer(
-            ExtensionRegistry registry, String serviceToken, ServerMetadata metadata, ServerBuilder<?> server) {
+            ExtensionRegistry registry, String serviceToken, ServerMetadata metadata, NettyServerBuilder server) {
         final String finalResult = new String(Base64.getDecoder().decode(serviceToken));
         final String[] split = finalResult.split(":", 2);
         if (split.length != 2) throw new IllegalStateException("Service token was not split as 'instanceUUID:token'");
-
         this.extensionRegistry = registry;
         this.instanceUUID = split[0];
         this.metadata = metadata;
         this.rawToken = split[1];
-        this.server = server.addService(new ServerRequestHandler(this))
+        this.server = server
+                .addService(new ServerRequestHandler(this))
                 .intercept(new ServerAuthenticationHandler(this))
                 .build();
     }

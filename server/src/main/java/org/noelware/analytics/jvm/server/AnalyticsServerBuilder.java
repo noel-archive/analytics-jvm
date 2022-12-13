@@ -24,7 +24,12 @@
 package org.noelware.analytics.jvm.server;
 
 import io.grpc.ServerBuilder;
+
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.function.Consumer;
+
+import io.grpc.netty.shaded.io.grpc.netty.NettyServerBuilder;
 import org.noelware.analytics.jvm.server.extensions.Extension;
 import org.noelware.analytics.jvm.server.extensions.internal.DefaultExtensionRegistry;
 import org.noelware.analytics.jvm.server.internal.DefaultAnalyticsServer;
@@ -36,23 +41,24 @@ import org.noelware.analytics.jvm.server.internal.metadata.DefaultServerMetadata
 public class AnalyticsServerBuilder {
     private final DefaultExtensionRegistry extensionRegistry = new DefaultExtensionRegistry();
     private final ServerMetadata serverMetadata = new DefaultServerMetadata();
-    private final ServerBuilder<?> serverBuilder;
+    private final NettyServerBuilder serverBuilder;
     private String serviceToken;
 
     /**
      * Creates a new instance of {@link AnalyticsServerBuilder} with the default port
-     * being <code>10234</code>
+     * being <code>10234</code> and ip <code>127.0.0.1</code>
      */
     public AnalyticsServerBuilder() {
-        this(10234);
+        this("127.0.0.1", 10234);
     }
 
     /**
      * Creates a new instance of the {@link AnalyticsServerBuilder}.
+     * @param ip The ip to bind the server to
      * @param port The port to bind the server to
      */
-    public AnalyticsServerBuilder(int port) {
-        this.serverBuilder = ServerBuilder.forPort(port);
+    public AnalyticsServerBuilder(String ip, int port) {
+        this.serverBuilder = NettyServerBuilder.forAddress(new InetSocketAddress(ip, port));
     }
 
     public AnalyticsServerBuilder withServerMetadata(Consumer<ServerMetadata> metadata) {
