@@ -24,13 +24,11 @@
 package org.noelware.analytics.jvm.server.internal;
 
 import io.grpc.Server;
-import io.grpc.ServerBuilder;
+import io.grpc.netty.shaded.io.grpc.netty.NettyServerBuilder;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import io.grpc.netty.shaded.io.grpc.netty.NettyServerBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.noelware.analytics.jvm.server.AnalyticsServer;
 import org.noelware.analytics.jvm.server.ServerMetadata;
@@ -54,8 +52,7 @@ public class DefaultAnalyticsServer implements AnalyticsServer {
         this.instanceUUID = split[0];
         this.metadata = metadata;
         this.rawToken = split[1];
-        this.server = server
-                .addService(new ServerRequestHandler(this))
+        this.server = server.addService(new ServerRequestHandler(this))
                 .intercept(new ServerAuthenticationHandler(this))
                 .build();
     }

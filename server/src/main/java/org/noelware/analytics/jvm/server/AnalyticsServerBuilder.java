@@ -24,12 +24,9 @@
 package org.noelware.analytics.jvm.server;
 
 import io.grpc.ServerBuilder;
-
-import java.net.InetAddress;
+import io.grpc.netty.shaded.io.grpc.netty.NettyServerBuilder;
 import java.net.InetSocketAddress;
 import java.util.function.Consumer;
-
-import io.grpc.netty.shaded.io.grpc.netty.NettyServerBuilder;
 import org.noelware.analytics.jvm.server.extensions.Extension;
 import org.noelware.analytics.jvm.server.extensions.internal.DefaultExtensionRegistry;
 import org.noelware.analytics.jvm.server.internal.DefaultAnalyticsServer;
