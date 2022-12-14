@@ -26,6 +26,6 @@ plugins {
 }
 
 dependencies {
-    implementation("io.grpc:grpc-netty-shaded:1.51.0")
+    implementation("io.grpc:grpc-netty-shaded:1.51.1")
     api(project(":protobufs"))
 }
