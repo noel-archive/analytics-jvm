@@ -37,6 +37,6 @@ dependencies {
     implementation("com.google.protobuf:protobuf-gradle-plugin:0.8.19")
     implementation("org.jetbrains.dokka:dokka-gradle-plugin:1.7.20")
     implementation(kotlin("gradle-plugin", "1.7.22"))
-    implementation("dev.floofy.commons:gradle:2.4.1")
+    implementation("dev.floofy.commons:gradle:2.4.2")
     implementation(gradleApi())
 }
