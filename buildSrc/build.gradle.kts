@@ -36,7 +36,7 @@ dependencies {
     implementation("com.diffplug.spotless:spotless-plugin-gradle:6.16.0")
     implementation("com.google.protobuf:protobuf-gradle-plugin:0.8.19")
     implementation("org.jetbrains.dokka:dokka-gradle-plugin:1.7.20")
-    implementation(kotlin("gradle-plugin", "1.8.0"))
+    implementation(kotlin("gradle-plugin", "1.8.10"))
     implementation("dev.floofy.commons:gradle:2.5.0")
     implementation(gradleApi())
 }
