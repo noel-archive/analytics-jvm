@@ -68,7 +68,7 @@ sourceSets {
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:3.22.3"
+        artifact = "com.google.protobuf:protoc:3.22.4"
     }
 
     plugins {
