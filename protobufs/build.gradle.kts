@@ -38,7 +38,7 @@ dependencies {
     implementation("com.google.protobuf:protobuf-java:3.23.0")
     compileOnly("org.apache.tomcat:annotations-api:6.0.53")
     runtimeOnly("io.grpc:grpc-netty:1.55.1")
-    api("io.grpc:grpc-protobuf:1.54.1")
+    api("io.grpc:grpc-protobuf:1.55.1")
     api("io.grpc:grpc-stub:1.54.1")
 }
 
